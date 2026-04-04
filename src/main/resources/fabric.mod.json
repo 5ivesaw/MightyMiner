@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "mightyminerv2",
+  "version": "${version}",
+  "name": "MightyMiner V2",
+  "description": "Best miner ever!!",
+  "authors": ["JellyLabScripts"],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.jelly.mightyminerv2.MightyMiner"]
+  },
+  "mixins": ["mixins.mightyminerv2.json"],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.10",
+    "java": ">=21"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "cloth-config2": "*"
+  }
+}

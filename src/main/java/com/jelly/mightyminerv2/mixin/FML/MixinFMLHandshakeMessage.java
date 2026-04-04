@@ -1,0 +1,27 @@
+// AUTO-PORTED from 1.8.9 Forge to 1.21.10 Fabric - may need manual review
+package com.jelly.mightyminerv2.mixin.fml;
+
+import com.jelly.mightyminerv2.MightyMiner;
+import net.minecraft.client.MinecraftClient;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.network.handshake.FMLHandshakeMessage;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
+import java.util.Map;
+
+@Mixin(value = FMLHandshakeMessage.ModList.class, remap = false, priority = Integer.MAX_VALUE)
+public abstract class MixinFMLHandshakeMessage {
+    @Shadow(remap = false)
+    private Map<String, String> modTags;
+
+    @Inject(method = "<init>(Ljava/util/List;)V", at = @At("RETURN"), remap = false)
+    private void init(List<ModContainer> modList, CallbackInfo ci) {
+        if (MinecraftClient.getInstance().isIntegratedServerRunning()) return;
+        modTags.keySet().removeIf(s -> s.contains(MightyMiner.modid));
+    }
+}

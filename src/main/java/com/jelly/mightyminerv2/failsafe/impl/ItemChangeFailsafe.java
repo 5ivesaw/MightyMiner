@@ -1,0 +1,177 @@
+// AUTO-PORTED from 1.8.9 Forge to 1.21.10 Fabric - may need manual review
+package com.jelly.mightyminerv2.failsafe.impl;
+
+import com.jelly.mightyminerv2.event.PacketEvent;
+import com.jelly.mightyminerv2.failsafe.AbstractFailsafe;
+import com.jelly.mightyminerv2.macro.MacroManager;
+import com.jelly.mightyminerv2.util.InventoryUtil;
+import com.jelly.mightyminerv2.util.Logger;
+import com.jelly.mightyminerv2.util.helper.Clock;
+import lombok.Getter;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.S2FPacketSetSlot;
+import net.minecraft.util.Formatting;
+
+import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class ItemChangeFailsafe extends AbstractFailsafe {
+
+    @Getter
+    private static final ItemChangeFailsafe instance = new ItemChangeFailsafe();
+    private final Clock timer = new Clock();
+    private final Map<String, Integer> removedItems = new HashMap();
+
+    @Override
+    public String getName() {
+        return "ItemChangeFailsafe";
+    }
+
+    @Override
+    public Failsafe getFailsafeType() {
+        return Failsafe.ITEM_CHANGE;
+    }
+
+    @Override
+    public int getPriority() {
+        return 5;
+    }
+
+    @Override
+    public boolean onTick(ClientTickEvent event) {
+        if (mc.currentScreen instanceof GuiContainer) {
+            if (!this.removedItems.isEmpty() || this.timer.isScheduled()) {
+                resetStates();
+            }
+            return false;
+        }
+
+        if (this.removedItems.isEmpty()) {
+            if (this.timer.isScheduled()) {
+                this.timer.reset();
+            }
+            return false;
+        }
+
+        if (!this.timer.isScheduled()) {
+            this.timer.schedule(2000);
+        }
+
+        if (this.timer.passed()) {
+            for (Map.Entry<String, Integer> entry : removedItems.entrySet()) {
+                warn("Necessary item with ID '" + entry.getKey() + "' is confirmed missing from slot " + entry.getValue() + " after timeout.");
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public boolean onPacketReceive(PacketEvent.Received event) {
+        if (mc.currentScreen instanceof GuiContainer) {
+            if (!this.removedItems.isEmpty() || this.timer.isScheduled()) {
+                resetStates();
+            }
+            return false;
+        }
+
+        if (!(event.packet instanceof S2FPacketSetSlot)) {
+            return false;
+        }
+
+        S2FPacketSetSlot packet = (S2FPacketSetSlot) event.packet;
+        int slot = packet.func_149173_d();
+
+        // Slots 1-44 are main player inventory
+        if (slot <= 0 || slot >= 45) {
+            return false;
+        }
+
+        Slot oldSlotObj = mc.player.playerScreenHandler.getSlot(slot);
+        ItemStack oldStackInSlot = oldSlotObj.hasStack() ? oldSlotObj.getStack() : null;
+        ItemStack newStackFromPacket = packet.func_149174_e();
+
+        String oldItemId = (oldStackInSlot != null) ? InventoryUtil.getItemId(oldStackInSlot) : "";
+        String newItemId = (newStackFromPacket != null) ? InventoryUtil.getItemId(newStackFromPacket) : "";
+
+        // Get and filter the list of necessary items
+        List<String> necessaryDisplayNames = MacroManager.getInstance().getCurrentMacro().getNecessaryItems()
+                .stream()
+                .filter(name -> name != null && !name.isEmpty())
+                .collect(Collectors.toList());
+
+        // Check if the removed/replaced item was necessary
+        if (oldStackInSlot != null && (newStackFromPacket == null || !oldItemId.equals(newItemId))) {
+            if (oldStackInSlot.hasCustomName()) {
+                String oldDisplayName = Formatting.strip(oldStackInSlot.getName().getString());
+                if (necessaryDisplayNames.stream().anyMatch(oldDisplayName::contains)) {
+                    removedItems.put(oldItemId, slot);
+                    log("Necessary item '" + oldDisplayName + "' (ID: " + oldItemId + ") was removed/replaced from slot " + slot);
+                }
+            }
+        }
+
+        if (newStackFromPacket != null && (oldStackInSlot == null || !newItemId.equals(oldItemId))) {
+            Integer originalSlotOfThisItem = removedItems.get(newItemId);
+
+            if (originalSlotOfThisItem != null) {
+                String newDisplayName = newStackFromPacket.hasCustomName() ? Formatting.strip(newStackFromPacket.getName().getString()) : newItemId;
+
+                if (!originalSlotOfThisItem.equals(slot)) {
+                    // check if the original slot still contains item
+                    Slot originalSlotObject = mc.player.playerScreenHandler.getSlot(originalSlotOfThisItem);
+                    if (originalSlotObject != null && originalSlotObject.hasStack()) {
+                        String idInOriginalSlot = InventoryUtil.getItemId(originalSlotObject.getStack());
+
+                        if (newItemId.equals(idInOriginalSlot)) {
+                            log("An item with ID " + newItemId + " was detected in slot " + slot + ", but an identical item remains in the originally tracked slot " + originalSlotOfThisItem + ". This is not a move. Ignoring.");
+                            removedItems.remove(newItemId);
+                            return false;
+                        }
+                    }
+
+                    log("Tracked necessary item '" + newDisplayName + "' (ID: " + newItemId + ") from original slot " + originalSlotOfThisItem + " now in slot " + slot + ".");
+                    warn("Necessary item '" + newDisplayName + "' (ID: " + newItemId + ") was MOVED from slot " + originalSlotOfThisItem + " to slot " + slot + ". Triggering failsafe!");
+                    return true;
+                } else {
+                    log("Tracked necessary item '" + newDisplayName + "' (ID: " + newItemId + ") has reappeared in its original slot " + originalSlotOfThisItem + ".");
+                    removedItems.remove(newItemId);
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onChat(/* ClientChatReceivedEvent - use FabricEventBridge */ event) {
+        if (event.type != 0 || this.removedItems.isEmpty()) {
+            return false;
+        }
+        String message = event.message.getString();
+        if (message.equals("Oh no! Your Pickonimbus 2000 broke!") && this.removedItems.remove("PICKONIMBUS") != null) {
+            error("Pickonimbus broke. Ignoring");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean react() {
+        MacroManager.getInstance().disable();
+        Logger.sendWarning("Your item has been changed! Disabling macro.");
+        return true;
+    }
+
+    @Override
+    public void resetStates() {
+        this.timer.reset();
+        this.removedItems.clear();
+    }
+}
