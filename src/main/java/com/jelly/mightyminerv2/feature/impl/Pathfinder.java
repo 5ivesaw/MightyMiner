@@ -17,8 +17,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 import java.awt.*;
 import java.util.*;

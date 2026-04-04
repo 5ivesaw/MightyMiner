@@ -14,12 +14,9 @@ import com.jelly.mightyminerv2.util.helper.AudioManager;
 import com.jelly.mightyminerv2.util.helper.Clock;
 import net.minecraft.client.MinecraftClient;
 
-import net.minecraftforge.client.event.GuiOpenEvent;
 
 
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 import java.util.*;
 

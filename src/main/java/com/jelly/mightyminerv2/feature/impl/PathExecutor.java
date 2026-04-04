@@ -138,7 +138,7 @@ public class PathExecutor {
             int current = -1;
             if (blockHashes != null && !blockHashes.isEmpty()) {
                 int bestY = -1;
-                double playerY = mc.player.posY;
+                double playerY = mc.player.getY();
                 for (Long blockHash : blockHashes) {
                     Pair<Integer, Integer> block = this.unpack(blockHash);
                     int blockY = block.getFirst();
@@ -164,7 +164,7 @@ public class PathExecutor {
                 RotationHandler.getInstance().stop();
             }
 
-            if (Math.hypot(mc.player.motionX, mc.player.motionZ) < 0.05) {
+            if (Math.hypot(mc.player.getVelocity().x, mc.player.getVelocity().z) < 0.05) {
                 if (!this.stuckTimer.isScheduled()) {
                     this.stuckTimer.schedule(1000);
                 }
@@ -223,7 +223,7 @@ public class PathExecutor {
 
         int targetX = target.getX();
         int targetZ = target.getZ();
-        double horizontalDistToTarget = Math.hypot(mc.player.posX - targetX - 0.5, mc.player.posZ - targetZ - 0.5);
+        double horizontalDistToTarget = Math.hypot(mc.player.getX() - targetX - 0.5, mc.player.getZ() - targetZ - 0.5);
         float yaw = AngleUtil.getRotationYaw360(mc.player.getPos(), new Vec3d(targetX + 0.5, 0.0, targetZ + 0.5));
         float yawDiff = Math.abs(AngleUtil.get360RotationYaw() - yaw);
 
@@ -237,7 +237,7 @@ public class PathExecutor {
             // look at a block thats at least 5 blocks away instead of looking at the target which helps reduce buggy rotation
             for (int i = this.target; i < this.blockPath.size(); i++) {
                 BlockPos rotationTarget = this.blockPath.get(i);
-                if (Math.hypot(mc.player.posX - rotationTarget.getX(), mc.player.posZ - rotationTarget.getZ()) > 5) {
+                if (Math.hypot(mc.player.getX() - rotationTarget.getX(), mc.player.getZ() - rotationTarget.getZ()) > 5) {
                     rotYaw = AngleUtil.getRotation(rotationTarget).yaw;
                     break;
                 }
@@ -272,7 +272,7 @@ public class PathExecutor {
         StrafeUtil.enabled = yawDiff > 3;
         StrafeUtil.yaw = ipYaw;
 
-        Vec3d pos = new Vec3d(mc.player.posX, playerPos.getY() + 0.5, mc.player.posZ);
+        Vec3d pos = new Vec3d(mc.player.getX(), playerPos.getY() + 0.5, mc.player.getZ());
         Vec3d vec4Rot = AngleUtil.getVectorForRotation(yaw);
         boolean shouldJump = BlockUtil.canWalkBetween(this.curr.getCtx(), pos, pos.add(vec4Rot.x, 1, vec4Rot.z));
         KeyBindUtil.setKeyBindState(mc.options.forwardKey, true);
@@ -307,7 +307,7 @@ public class PathExecutor {
             int targetX = target.getX();
             int targetZ = target.getZ();
             float yaw = AngleUtil.getRotationYaw360(mc.player.getPos(), new Vec3d(targetX + 0.5, 0.0, targetZ + 0.5));
-            Vec3d pos = new Vec3d(mc.player.posX, playerPos.getY() + 0.5, mc.player.posZ);
+            Vec3d pos = new Vec3d(mc.player.getX(), playerPos.getY() + 0.5, mc.player.getZ());
             Vec3d vec4Rot = AngleUtil.getVectorForRotation(yaw);
             Vec3d newV = pos.add(vec4Rot.x, playerPos.getY() + 1, vec4Rot.z);
             RenderUtil.drawBlock(new BlockPos(MathHelper.floor(newV.x), MathHelper.floor(newV.y), MathHelper.floor(newV.z)),

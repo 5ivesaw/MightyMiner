@@ -8,12 +8,10 @@ import com.jelly.mightyminerv2.macro.impl.MiningMacro.MiningMacro;
 import com.jelly.mightyminerv2.macro.impl.RouteMiner.RouteMinerMacro;
 import com.jelly.mightyminerv2.util.Logger;
 import net.minecraft.client.MinecraftClient;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class MacroManager {
     private static MacroManager instance;
     private AbstractMacro currentMacro;
-    private final MinecraftClient mc = MinecraftClient.getInstance();
 
     public static MacroManager getInstance() {
         if (instance == null) instance = new MacroManager();
@@ -54,10 +52,5 @@ public class MacroManager {
             case 3 -> RouteMinerMacro.getInstance();
             default -> null;
         };
-    }
-
-    @EventBus.SubscribeEvent
-    public void onTick(net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.EndTick e) {
-        // tick events are handled inside individual macros / features via ClientTickEvents
     }
 }

@@ -20,7 +20,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.GenericContainerScreenHandler;
 
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.List;

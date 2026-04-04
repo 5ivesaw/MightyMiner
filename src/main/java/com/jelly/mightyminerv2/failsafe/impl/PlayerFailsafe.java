@@ -10,7 +10,6 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,9 +79,9 @@ public class PlayerFailsafe extends AbstractFailsafe {
     private boolean isPlayerLookingAtMe(Entity player) {
         Vec3d lookVec = player.getLook(1.0F);
         Vec3d playerToMeVec = new Vec3d(
-                mc.player.posX - player.posX,
-                mc.player.getBoundingBox().minY + mc.player.getEyeHeight() - (player.posY + player.getEyeHeight()),
-                mc.player.posZ - player.posZ
+                mc.player.getX() - player.getX(),
+                mc.player.getBoundingBox().minY + mc.player.getEyeHeight() - (player.getY() + player.getEyeHeight()),
+                mc.player.getZ() - player.getZ()
         );
 
         double d0 = playerToMeVec.lengthVector();

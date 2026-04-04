@@ -11,7 +11,6 @@ import com.jelly.mightyminerv2.util.helper.route.Route;
 import com.jelly.mightyminerv2.util.helper.route.RouteWaypoint;
 import com.jelly.mightyminerv2.util.helper.route.WaypointType;
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 import java.util.concurrent.TimeUnit;
 

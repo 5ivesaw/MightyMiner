@@ -34,7 +34,7 @@ public class AngleUtil {
     }
 
     public static float get360RotationYaw() {
-        if (mc.thePlayer == null) {
+        if (mc.player == null) {
             return 0;
         }
         return get360RotationYaw(mc.player.getYaw());
@@ -65,16 +65,16 @@ public class AngleUtil {
     }
 
     public static Angle getRotation(Vec3d to) {
-        return getRotation(mc.thePlayer.getPositionEyes(((MinecraftAccessor) mc).getTimer().renderPartialTicks), to);
+        return getRotation(mc.player.getPositionEyes(((MinecraftAccessor) mc).getTimer().renderPartialTicks), to);
     }
 
     public static Angle getRotation(Entity to) {
-        return getRotation(mc.thePlayer.getPositionEyes(((MinecraftAccessor) mc).getTimer().renderPartialTicks),
+        return getRotation(mc.player.getPositionEyes(((MinecraftAccessor) mc).getTimer().renderPartialTicks),
                 to.getPositionVector().addVector(0, Math.min(((to.height * 0.85) + randomAddition), 1.7), 0));
     }
 
     public static Angle getRotation(BlockPos pos) {
-        return getRotation(mc.thePlayer.getPositionEyes(((MinecraftAccessor) mc).getTimer().renderPartialTicks), new Vec3d(pos).addVector(0.5, 0.5, 0.5));
+        return getRotation(mc.player.getPositionEyes(((MinecraftAccessor) mc).getTimer().renderPartialTicks), new Vec3d(pos).addVector(0.5, 0.5, 0.5));
     }
 
     public static Angle getRotation(Vec3d from, BlockPos pos) {

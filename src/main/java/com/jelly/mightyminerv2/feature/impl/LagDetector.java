@@ -9,7 +9,6 @@ import lombok.Getter;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.util.math.Vec3d;
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 
 public class LagDetector extends AbstractFeature {

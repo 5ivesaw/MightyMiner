@@ -39,8 +39,8 @@ public class CommissionUtil {
     }
 
     public static Optional<EntityPlayer> getEmissary(Vec3 pos) {
-        return mc.theWorld.playerEntities.stream()
-                .filter(entity -> entity.posX == pos.xCoord && entity.posY == pos.yCoord && entity.posZ == pos.zCoord
+        return mc.world.playerEntities.stream()
+                .filter(entity -> entity.getX() == pos.xCoord && entity.getY() == pos.yCoord && entity.getZ() == pos.zCoord
                         && !entity.getName().contains("Sentry") // Just Because; It should never happen
                         && EntityUtil.isNpc(entity))
                 .findFirst();
@@ -56,8 +56,8 @@ public class CommissionUtil {
             return Optional.empty();
         }
 
-        return mc.theWorld.playerEntities.stream()
-                .filter(entity -> entity.posX == pos.xCoord && entity.posY == pos.yCoord && entity.posZ == pos.zCoord
+        return mc.world.playerEntities.stream()
+                .filter(entity -> entity.getX() == pos.xCoord && entity.getY() == pos.yCoord && entity.getZ() == pos.zCoord
                         && !entity.getName().contains("Sentry") // Just Because; It should never happen
                         && EntityUtil.isNpc(entity))
                 .findFirst();
@@ -149,7 +149,7 @@ public class CommissionUtil {
 //      return new ArrayList<>();
 //    }
 //    List<EntityPlayer> mobs = new ArrayList<>();
-//    for (EntityPlayer mob : mc.theWorld.playerEntities) {
+//    for (EntityPlayer mob : mc.world.playerEntities) {
 //      if (mob.getName().equals(mobName)) {
 //        mobs.add(mob);
 //      }
@@ -164,7 +164,7 @@ public class CommissionUtil {
 
     public static List<EntityLiving> getMobList(String mobName, Set<EntityLiving> mobsToIgnore) {
         List<EntityLiving> mobs = new ArrayList<>();
-        for (Entity mob : mc.theWorld.loadedEntityList) {
+        for (Entity mob : mc.world.loadedEntityList) {
             if (mob instanceof EntityLiving && mob.getName().trim().equals(mobName) && mob.isEntityAlive() && !mobsToIgnore.contains(mob)) {
                 mobs.add((EntityLiving) mob);
             }
@@ -188,7 +188,7 @@ public class CommissionUtil {
         List<Pair<EntityPlayer, Pair<Double, Double>>> mobs = new ArrayList<>();
         Vec3 playerPos = mc.player.getPositionVector();
         float normalizedYaw = AngleUtil.normalizeAngle(mc.player.rotationYaw);
-        for (EntityPlayer mob : mc.theWorld.playerEntities) {
+        for (EntityPlayer mob : mc.world.playerEntities) {
             if (mob.getName().trim().equals(mobName) && mob.isEntityAlive() && !mobsToIgnore.contains(mob)) {
                 Vec3 mobPos = mob.getPositionVector();
                 double distanceCost =

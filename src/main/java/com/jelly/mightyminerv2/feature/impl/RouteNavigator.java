@@ -25,7 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 // This works under the assumption that the blocks between every node are clear and traversable.
 // Checks to determine if the player can move between two nodes must be done beforehand; otherwise, it will cause bugs.

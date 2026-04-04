@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import com.jelly.mightyminerv2.event.EventBus;
 
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 public class AutoDrillRefuel extends AbstractFeature {
     @Getter

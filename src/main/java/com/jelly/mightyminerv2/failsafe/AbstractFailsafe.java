@@ -6,10 +6,8 @@ import com.jelly.mightyminerv2.event.PacketEvent;
 import com.jelly.mightyminerv2.util.Logger;
 import net.minecraft.client.MinecraftClient;
 
-import net.minecraftforge.client.event.GuiOpenEvent;
 
 
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 public abstract class AbstractFailsafe {
 

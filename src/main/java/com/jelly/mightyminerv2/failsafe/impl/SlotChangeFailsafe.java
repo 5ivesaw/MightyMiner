@@ -9,7 +9,6 @@ import com.jelly.mightyminerv2.util.helper.Clock;
 import lombok.Getter;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.play.server.S09PacketHeldItemChange;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 public class SlotChangeFailsafe extends AbstractFailsafe {
 

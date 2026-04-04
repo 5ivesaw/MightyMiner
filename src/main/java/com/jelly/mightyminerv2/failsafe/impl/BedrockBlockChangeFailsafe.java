@@ -10,7 +10,6 @@ import lombok.Getter;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,7 +11,6 @@ import lombok.Getter;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 public class TeleportFailsafe extends AbstractFailsafe {
 

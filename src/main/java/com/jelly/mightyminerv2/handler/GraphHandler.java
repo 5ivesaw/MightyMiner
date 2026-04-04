@@ -14,7 +14,6 @@ import com.jelly.mightyminerv2.util.helper.route.WaypointType;
 import net.minecraft.util.math.BlockPos;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 import java.awt.*;
 import java.io.BufferedWriter;

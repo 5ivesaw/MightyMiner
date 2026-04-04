@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S2FPacketSetSlot;
 import net.minecraft.util.Formatting;
 
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 import java.util.HashMap;
 import java.util.List;

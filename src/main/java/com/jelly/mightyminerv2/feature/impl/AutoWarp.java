@@ -7,9 +7,7 @@ import com.jelly.mightyminerv2.handler.GameStateHandler;
 import com.jelly.mightyminerv2.util.helper.location.Location;
 import com.jelly.mightyminerv2.util.helper.location.SubLocation;
 import lombok.Getter;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -229,10 +227,10 @@ public class AutoWarp extends AbstractFeature {
     }
 
     private void sendCommand(String command) {
-        if (mc.thePlayer == null) {
+        if (mc.player == null) {
             note("Player is null. mc : " + (mc == null ? "null" : "not null"));
         }
-        mc.thePlayer.sendChatMessage(command);
+        mc.player.sendChatMessage(command);
     }
 
     private String getWarpCommand(Location location) {

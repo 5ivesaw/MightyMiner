@@ -29,7 +29,7 @@ public class EntityUtil {
     }
 
     public static BlockPos getBlockStandingOn(Entity entity) {
-        return new BlockPos(entity.posX, Math.ceil(entity.posY - 0.25) - 1, entity.posZ);
+        return new BlockPos(entity.getX(), Math.ceil(entity.getY() - 0.25) - 1, entity.getZ());
     }
 
     public static Optional<Entity> getEntityLookingAt() {

@@ -136,12 +136,12 @@ public class InventoryUtil {
         if (mc.player == null || mc.currentScreen == null) return false;
         if (!(mc.currentScreen instanceof GenericContainerScreen)) return false;
         GenericContainerScreenHandler h = (GenericContainerScreenHandler) mc.player.currentScreenHandler;
-        ItemStack last = h.getInventory().getStack(h.getInventory().size() - 1);
+        ItemStack last = h.getInventory().getStack(h.size() - 1);
         return !last.isEmpty();
     }
 
     public static boolean isInventoryEmpty() {
-        for (int i = 0; i < mc.player.getInventory().size(); i++) {
+        for (int i = 0; i < mc.player.size(); i++) {
             if (!mc.player.getInventory().getStack(i).isEmpty()) return false;
         }
         return true;

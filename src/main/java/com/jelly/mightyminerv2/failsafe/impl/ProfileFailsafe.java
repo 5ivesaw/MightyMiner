@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.Formatting;
-import net.minecraftforge.client.event.GuiOpenEvent;
 
 public class ProfileFailsafe extends AbstractFailsafe {
 
@@ -44,8 +43,8 @@ public class ProfileFailsafe extends AbstractFailsafe {
                 GenericContainerScreenHandler container = (GenericContainerScreenHandler) guiChest.slots;
                 IInventory chestInventory = container.getLowerChestInventory();
 
-                if (chestInventory != null && chestInventory.hasCustomName()) {
-                    String inventoryName = Formatting.strip(chestInventory.getName().getString().getString());
+                if (!chestInventory.isEmpty() && chestInventory.hasCustomName()) {
+                    String inventoryName = Formatting.strip(chestInventory.getName().getString());
                     if (inventoryName.toLowerCase().contains(TRIGGER_PHRASE.toLowerCase())) {
                         note("Detected inventory open with name containing " + inventoryName);
                         return true;

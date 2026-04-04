@@ -15,7 +15,6 @@ import com.jelly.mightyminerv2.macro.impl.CommissionMacro.states.WarpingState;
 import com.jelly.mightyminerv2.util.CommissionUtil;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.List;

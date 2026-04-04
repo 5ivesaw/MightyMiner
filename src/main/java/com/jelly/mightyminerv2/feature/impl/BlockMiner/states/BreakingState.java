@@ -76,7 +76,7 @@ public class BreakingState implements BlockMinerState{
         wasLookingAway = false;
 
         miningTime = BlockUtil.getMiningTime(
-                /* TODO Block.getStateId -> registry */ Block.getRawIdFromState(MinecraftClient.getInstance().theWorld.getBlockState(miner.getTargetBlockPos())),
+                net.minecraft.registry.Registries.BLOCK_STATE.getRawId(MinecraftClient.getInstance().theWorld.getBlockState(miner.getTargetBlockPos())),
                 miner.getMiningSpeed()
         );
 
@@ -159,8 +159,8 @@ public class BreakingState implements BlockMinerState{
         // Calculate distance to walking destination and mining point
         double walkingDistance = 999;
         if (walkingDestinationBlock != null)
-            walkingDistance = Math.hypot(this.walkingDestinationBlock.x - mc.player.posX,
-                    this.walkingDestinationBlock.z - mc.player.posZ);
+            walkingDistance = Math.hypot(this.walkingDestinationBlock.x - mc.player.getX(),
+                    this.walkingDestinationBlock.z - mc.player.getZ());
 
         double miningDistance = PlayerUtil.getPlayerEyePos().distanceTo(this.targetPoint);
 

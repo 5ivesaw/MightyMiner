@@ -142,7 +142,7 @@ public class MixinNetHandlerPlayClient {
         if (entity instanceof LivingEntity) {
             int nX = (int) Math.round(d0) / 3;
             int nZ = (int) Math.round(d2) / 3;
-            if ((int) Math.round(entity.posX) != nX || (int) Math.round(entity.posZ) != nZ) {
+            if ((int) Math.round(entity.getX()) != nX || (int) Math.round(entity.getZ()) != nZ) {
                 EventBus.INSTANCE.post(new UpdateEntityEvent((LivingEntity) entity, pack(nX, nZ)));
             }
         }
@@ -158,7 +158,7 @@ public class MixinNetHandlerPlayClient {
         if (entity instanceof LivingEntity) {
             int nX = (int) Math.round(d0) / 3;
             int nZ = (int) Math.round(d2) / 3;
-            if ((int) Math.round(entity.posX) != nX || (int) Math.round(entity.posZ) != nZ) {
+            if ((int) Math.round(entity.getX()) != nX || (int) Math.round(entity.getZ()) != nZ) {
                 EventBus.INSTANCE.post(new UpdateEntityEvent((LivingEntity) entity, pack(nX, nZ)));
             }
         }

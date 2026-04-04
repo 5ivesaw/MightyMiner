@@ -108,7 +108,7 @@ public class BlockUtil {
      */
     public static List<BlockPos> findMineableBlocksAroundHead(
             Map<Integer, Integer> blockPriorities, BlockPos blockToIgnore, int miningSpeed) {
-        final Vec3d eye = new Vec3d(mc.player.posX, mc.player.posY + mc.player.eyeHeight, mc.player.posZ);
+        final Vec3d eye = new Vec3d(mc.player.getX(), mc.player.getY() + mc.player.eyeHeight, mc.player.getZ());
 
         final Set<Long> blocksToIgnore = new HashSet<>();
         if (blockToIgnore != null) {
@@ -311,7 +311,7 @@ public class BlockUtil {
 
     public static Vec3d getClosestVisibleSidePos(BlockPos block) {
         Direction face = null;
-        if (mc.world.getBlockState(block)) {
+        if (mc.world.getBlockState(block) {
             final Vec3d eyePos = mc.player.getCameraPosVec(1f);
             double dist = Double.MAX_VALUE;
             for (Direction side : BLOCK_SIDES.keySet()) {
@@ -335,7 +335,7 @@ public class BlockUtil {
 
     public static Vec3d getClosestVisibleSidePos(Vec3d from, BlockPos block) {
         Direction face = null;
-        if (mc.world.getBlockState(block)) {
+        if (mc.world.getBlockState(block) {
             double dist = Double.MAX_VALUE;
             for (Direction side : BLOCK_SIDES.keySet()) {
                 if (side != null && !mc.world.getBlockState(block).getBlock().isSideInvisible(mc.world.getBlockState(block.offset(side), side)) {
@@ -356,7 +356,7 @@ public class BlockUtil {
     }
 
     public static Direction getClosestVisibleSide(BlockPos block) {
-        if (!mc.world.getBlockState(block)) {
+        if (!mc.world.getBlockState(block) {
             return null;
         }
         final Vec3d eyePos = mc.player.getCameraPosVec(1f);
@@ -380,7 +380,7 @@ public class BlockUtil {
     }
 
     public static Direction getClosestVisibleSide(Vec3d from, BlockPos block) {
-        if (!mc.world.getBlockState(block)) {
+        if (!mc.world.getBlockState(block) {
             return null;
         }
         double dist = Double.MAX_VALUE;
@@ -402,7 +402,7 @@ public class BlockUtil {
     }
 
     public static boolean hasVisibleSide(BlockPos block) {
-        if (!mc.world.getBlockState(block)) {
+        if (!mc.world.getBlockState(block) {
             return false;
         }
         for (Direction side : Direction.values()) {
@@ -417,7 +417,7 @@ public class BlockUtil {
     }
 
     public static boolean hasVisibleSide(Vec3d from, BlockPos block) {
-        if (!mc.world.getBlockState(block)) {
+        if (!mc.world.getBlockState(block) {
             return false;
         }
         for (Direction side : Direction.values()) {

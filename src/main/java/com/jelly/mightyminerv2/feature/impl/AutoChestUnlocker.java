@@ -19,7 +19,6 @@ import net.minecraft.util.math.Vec3d;
 
 
 import com.jelly.mightyminerv2.event.EventBus;
-import net.minecraftforge.fml.common.gameevent.net.minecraft.client.MinecraftClient;
 
 import java.awt.*;
 import java.util.ArrayList;
