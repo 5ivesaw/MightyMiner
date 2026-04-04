@@ -1,7 +1,6 @@
 plugins {
-    id 'fabric-loom' version '1.10.1'
+    id 'fabric-loom' version '1.9.2'
     id 'maven-publish'
-    id 'io.freefair.lombok' version '8.6'
 }
 
 version = project.mod_version
@@ -11,41 +10,23 @@ base {
     archivesName = project.archives_base_name
 }
 
-loom {
-    splitEnvironmentSourceSets()
-    mods {
-        "mightyminerv2" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
-}
-
-fabricApi {
-    configureDataGeneration()
-}
-
 repositories {
-    maven { url 'https://maven.shedaniel.me/' }          // Cloth Config
-    maven { url 'https://maven.terraformersmc.com/releases/' } // ModMenu
+    maven { url 'https://maven.shedaniel.me/' }
+    maven { url 'https://maven.terraformersmc.com/releases/' }
 }
 
 dependencies {
-    // Fabric / MC
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // Config GUI
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
-
-    // Utility
     implementation 'com.google.code.gson:gson:2.11.0'
     implementation 'it.unimi.dsi:fastutil:8.5.14'
+
+    // Lombok via annotation processor (no plugin needed)
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
 }
 
 processResources {
@@ -54,6 +35,11 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = "UTF-8"
 }
 
 java {
