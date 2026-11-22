@@ -4,14 +4,20 @@
   "version": "${version}",
   "name": "MightyMiner V2",
   "description": "Best miner ever!!",
-  "authors": ["JellyLabScripts"],
+  "authors": [
+    "JellyLabScripts"
+  ],
   "contact": {},
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "environment": "client",
   "entrypoints": {
-    "client": ["com.jelly.mightyminerv2.MightyMiner"]
+    "client": [
+      "com.jelly.mightyminerv2.MightyMiner"
+    ]
   },
-  "mixins": ["mixins.mightyminerv2.json"],
+  "mixins": [
+    "mixins.mightyminerv2.json"
+  ],
   "depends": {
     "fabricloader": ">=0.16.0",
     "fabric-api": "*",
